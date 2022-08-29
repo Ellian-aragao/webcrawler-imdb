@@ -1,4 +1,4 @@
-package aragao.ellian.com.github.model;
+package aragao.ellian.com.github.core.model;
 
 public record Review(String score, String title, String content) {
     public static Review of(String score, String title, String content) {

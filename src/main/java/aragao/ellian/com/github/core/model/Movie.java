@@ -1,4 +1,4 @@
-package aragao.ellian.com.github.model;
+package aragao.ellian.com.github.core.model;
 
 import java.util.List;
 
