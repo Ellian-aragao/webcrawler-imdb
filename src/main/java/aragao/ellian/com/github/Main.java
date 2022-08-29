@@ -1,11 +1,14 @@
 package aragao.ellian.com.github;
 
+import aragao.ellian.com.github.model.Movie;
+import aragao.ellian.com.github.model.Review;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -71,8 +74,27 @@ public class Main {
 
     private static void consumeLinkMovie(String pathUrl) {
         Objects.requireNonNull(pathUrl, "should not pass element null");
-        consumeMoviePage(pathUrl);
+        final var movie = consumeMoviePage(pathUrl);
+        System.out.println(movie);
         consumeLinkMovieReviews(pathUrl.concat("/reviews?sort=userRating&dir=desc&ratingFilter=0"));
+    }
+
+    private static Movie consumeMoviePage(String pathUrl) {
+        final var doc = getDocumentFromImdbWithPath(pathUrl);
+        final var bodyMoviePage = doc.body();
+        final var name = getMovieName(bodyMoviePage);
+        final var score = getMovieScore(bodyMoviePage);
+        final var directors = getMovieDirectors(bodyMoviePage);
+        final var starts = getMovieStars(bodyMoviePage);
+        final var topCast = getMovieTopCast(bodyMoviePage);
+
+        return Movie.builder()
+                .name(name)
+                .score(score)
+                .directors(directors)
+                .starts(starts)
+                .topCast(topCast)
+                .build();
     }
 
     private static void consumeLinkMovieReviews(String pathUrl) {
@@ -81,73 +103,15 @@ public class Main {
         consumeMovieReviewsPage(doc.body());
     }
 
-    private static void consumeMovieReviewsPage(Element body) {
-        Objects.requireNonNull(body, "should not pass element null");
-        body.getElementsByClass("lister-item-content").forEach(Main::consumeMovieReviewItem);
-    }
-
-    private static void consumeMovieReviewItem(Element element) {
-        final var listRootElementeReview = getElementRootFromListReview(element);
-        getScoreReview(listRootElementeReview);
-        getTitleReview(listRootElementeReview);
-        getContentReview(listRootElementeReview);
-    }
-
-    private static Elements getElementRootFromListReview(Element element) {
-        return element
-                .getElementsByClass("lister-item-content");
-    }
-
-    private static void getScoreReview(Elements elements) {
-        final var score = elements
-                .first()
-                .getElementsByClass("rating-other-user-rating")
-                .first()
-                .children()
-                .next()
-                .first()
-                .text();
-        System.out.println(score);
-    }
-
-    private static void getTitleReview(Elements element) {
-        final var title = element
-                .first()
-                .getElementsByClass("title")
-                .first()
-                .text();
-        System.out.println(title);
-    }
-
-    private static void getContentReview(Elements elements) {
-        final var title = elements
-                .first()
-                .getElementsByClass("content")
-                .first()
-                .text();
-        System.out.println(title);
-    }
-
-    private static void consumeMoviePage(String pathUrl) {
-        final var doc = getDocumentFromImdbWithPath(pathUrl);
-        final var bodyMoviePage = doc.body();
-        getMovieName(bodyMoviePage);
-        getMovieScore(bodyMoviePage);
-        getMovieDirectors(bodyMoviePage);
-        getMovieStars(bodyMoviePage);
-        getMovieTopCast(bodyMoviePage);
-    }
-
-    private static void getMovieName(Element bodyMoviePage) {
-        final var name = bodyMoviePage
+    private static String getMovieName(Element bodyMoviePage) {
+        return bodyMoviePage
                 .getElementsByAttributeValue("data-testid", "hero-title-block__title")
                 .first()
                 .text();
-        System.out.println(name);
     }
 
-    private static void getMovieScore(Element bodyMoviePage) {
-        final var score = bodyMoviePage
+    private static String getMovieScore(Element bodyMoviePage) {
+        return bodyMoviePage
                 .getElementsByAttributeValue("data-testid", "hero-rating-bar__aggregate-rating")
                 .first()
                 .getElementsByAttributeValue("data-testid", "hero-rating-bar__aggregate-rating__score")
@@ -155,11 +119,10 @@ public class Main {
                 .getElementsByTag("span")
                 .first()
                 .text();
-        System.out.println(score);
     }
 
-    private static void getMovieDirectors(Element bodyMoviePage) {
-        final var directors = bodyMoviePage
+    private static List<String> getMovieDirectors(Element bodyMoviePage) {
+        return bodyMoviePage
                 .getElementsByAttributeValue("data-testid", "title-pc-principal-credit")
                 .first()
                 .getElementsByTag("div")
@@ -168,11 +131,10 @@ public class Main {
                 .stream()
                 .map(Element::text)
                 .toList();
-        System.out.println(directors);
     }
 
-    private static void getMovieStars(Element bodyMoviePage) {
-        final var movieStars = bodyMoviePage
+    private static List<String> getMovieStars(Element bodyMoviePage) {
+        return bodyMoviePage
                 .getElementsByAttributeValue("data-testid", "title-pc-principal-credit")
                 .last()
                 .getElementsByTag("div")
@@ -181,11 +143,10 @@ public class Main {
                 .stream()
                 .map(Element::text)
                 .toList();
-        System.out.println(movieStars);
     }
 
-    private static void getMovieTopCast(Element bodyMoviePage) {
-        final var topCast = bodyMoviePage
+    private static List<String> getMovieTopCast(Element bodyMoviePage) {
+        return bodyMoviePage
                 .getElementsByAttributeValue("data-testid", "title-cast")
                 .first()
                 .getElementsByAttributeValue("data-testid", "title-cast-item")
@@ -194,6 +155,55 @@ public class Main {
                 .map(Elements::first)
                 .map(Element::text)
                 .toList();
-        System.out.println(topCast);
+    }
+
+    private static void consumeMovieReviewsPage(Element body) {
+        Objects.requireNonNull(body, "should not pass element null");
+        body.getElementsByClass("lister-item-content").forEach(Main::consumeMovieReviewItem);
+    }
+
+    private static Review consumeMovieReviewItem(Element element) {
+        final var listRootElementeReview = getElementRootFromListReview(element);
+        final var score = getScoreReview(listRootElementeReview);
+        final var title = getTitleReview(listRootElementeReview);
+        final var content = getContentReview(listRootElementeReview);
+
+        return Review.builder()
+                     .score(score)
+                     .title(title)
+                     .content(content)
+                     .build();
+    }
+
+    private static Elements getElementRootFromListReview(Element element) {
+        return element
+                .getElementsByClass("lister-item-content");
+    }
+
+    private static String getScoreReview(Elements elements) {
+        return elements
+                .first()
+                .getElementsByClass("rating-other-user-rating")
+                .first()
+                .children()
+                .next()
+                .first()
+                .text();
+    }
+
+    private static String getTitleReview(Elements element) {
+        return element
+                .first()
+                .getElementsByClass("title")
+                .first()
+                .text();
+    }
+
+    private static String getContentReview(Elements elements) {
+        return elements
+                .first()
+                .getElementsByClass("content")
+                .first()
+                .text();
     }
 }
