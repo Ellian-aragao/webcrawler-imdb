@@ -5,9 +5,5 @@ import aragao.ellian.com.github.core.model.MovieReviews;
 import java.util.List;
 
 public interface ImdbWorstMoviesPort {
-    default List<MovieReviews> getWorstMoviesData() {
-        return getWorstMoviesData(10L);
-    }
-
-    List<MovieReviews> getWorstMoviesData(Long limit);
+    List<MovieReviews> getWorstMoviesData();
 }
