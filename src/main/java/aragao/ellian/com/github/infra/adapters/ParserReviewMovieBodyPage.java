@@ -9,7 +9,6 @@ import java.util.Objects;
 
 public class ParserReviewMovieBodyPage {
     public static List<Review> consumeMovieReviewsPage(Element body) {
-        Objects.requireNonNull(body, "should not pass element null");
         return body.getElementsByClass("lister-item-content")
                    .stream()
                    .map(ParserReviewMovieBodyPage::consumeMovieReviewItem)
