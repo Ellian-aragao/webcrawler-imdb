@@ -1,4 +1,4 @@
-package aragao.ellian.com.github.infra.adapters;
+package aragao.ellian.com.github.infra.crawler;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

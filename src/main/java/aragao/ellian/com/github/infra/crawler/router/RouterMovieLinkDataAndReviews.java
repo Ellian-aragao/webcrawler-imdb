@@ -1,13 +1,16 @@
-package aragao.ellian.com.github.infra.adapters;
+package aragao.ellian.com.github.infra.crawler.router;
 
 import aragao.ellian.com.github.core.model.Movie;
 import aragao.ellian.com.github.core.model.MovieReviews;
 import aragao.ellian.com.github.core.model.Review;
+import aragao.ellian.com.github.infra.crawler.ImdbDocumentConsumer;
+import aragao.ellian.com.github.infra.crawler.parser.ParserMovieBodyPage;
+import aragao.ellian.com.github.infra.crawler.parser.ParserReviewMovieBodyPage;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class ConsumerMovieLink {
+public class RouterMovieLinkDataAndReviews {
     private static final Pattern patternQueryParameter = Pattern.compile("/\\?");
     private static final String queryParamSortingBetterComment = "?sort=userRating&dir=desc&ratingFilter=0";
     private static final String reviewsUrlPath = "/reviews";

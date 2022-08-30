@@ -1,11 +1,10 @@
-package aragao.ellian.com.github.infra.adapters;
+package aragao.ellian.com.github.infra.crawler.parser;
 
 import aragao.ellian.com.github.core.model.Review;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ParserReviewMovieBodyPage {
     public static List<Review> consumeMovieReviewsPage(Element body) {

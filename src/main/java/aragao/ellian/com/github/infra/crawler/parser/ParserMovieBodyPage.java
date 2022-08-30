@@ -1,4 +1,4 @@
-package aragao.ellian.com.github.infra.adapters;
+package aragao.ellian.com.github.infra.crawler.parser;
 
 import aragao.ellian.com.github.core.model.Movie;
 import org.jsoup.nodes.Element;
