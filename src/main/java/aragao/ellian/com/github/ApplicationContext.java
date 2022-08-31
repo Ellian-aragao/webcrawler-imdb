@@ -1,5 +1,7 @@
 package aragao.ellian.com.github;
 
+import aragao.ellian.com.github.core.usecase.FindLowestRatedMoviesUsecase;
+import aragao.ellian.com.github.core.usecase.SortMoviesUsecase;
 import aragao.ellian.com.github.core.usecase.impl.FindLowestRatedMoviesUsecaseImpl;
 import aragao.ellian.com.github.core.usecase.impl.SortMoviesUsecaseImpl;
 import aragao.ellian.com.github.infra.adapters.ImdbWorstMoviePort;
@@ -15,8 +17,8 @@ import java.util.Objects;
 
 public abstract class ApplicationContext {
 
-    private static SortMoviesUsecaseImpl sortMoviesUsecase;
-    private static FindLowestRatedMoviesUsecaseImpl findLowestRatedMoviesUsecase;
+    private static SortMoviesUsecase sortMoviesUsecase;
+    private static FindLowestRatedMoviesUsecase findLowestRatedMoviesUsecase;
 
     public static void initializeContexts() {
         final var parserChartRatedMoviesPage = new ParserChartRatedMoviesPage();
@@ -32,14 +34,14 @@ public abstract class ApplicationContext {
         findLowestRatedMoviesUsecase = new FindLowestRatedMoviesUsecaseImpl(imdbWorstMoviePort);
     }
 
-    public static SortMoviesUsecaseImpl getSortMoviesUsecase() {
+    public static SortMoviesUsecase getSortMoviesUsecase() {
         if (Objects.nonNull(sortMoviesUsecase)) {
             return sortMoviesUsecase;
         }
         throw new RuntimeException("Context not initialized");
     }
 
-    public static FindLowestRatedMoviesUsecaseImpl getFindLowestRatedMoviesUsecase() {
+    public static FindLowestRatedMoviesUsecase getFindLowestRatedMoviesUsecase() {
         if (Objects.nonNull(findLowestRatedMoviesUsecase)) {
             return findLowestRatedMoviesUsecase;
         }
