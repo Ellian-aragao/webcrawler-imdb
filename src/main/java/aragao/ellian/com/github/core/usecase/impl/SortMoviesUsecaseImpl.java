@@ -14,9 +14,11 @@ public class SortMoviesUsecaseImpl implements SortMoviesUsecase {
     public List<MovieReviews> sortMoviesByRating(List<MovieReviews> movieReviews, boolean isAscending) {
         final var movieReviewToSort = verifyIfImmutableList(movieReviews);
         movieReviewToSort.sort((movieReview1, movieReview2) -> {
-            final var movie1Rating = movieReview1.movie().score();
-            final var movie2Rating = movieReview2.movie().score();
-            return isAscending ? movie1Rating.compareTo(movie2Rating) : movie2Rating.compareTo(movie1Rating);
+            final var movie1Rating = Float.parseFloat(movieReview1.movie().score());
+            final var movie2Rating = Float.parseFloat(movieReview2.movie().score());
+            return isAscending
+                   ? Float.compare(movie1Rating, movie2Rating)
+                   : Float.compare(movie2Rating, movie1Rating);
         });
         return movieReviewToSort;
     }
