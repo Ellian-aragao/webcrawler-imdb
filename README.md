@@ -48,10 +48,15 @@ $ mvn install
 # Execute a aplicação
 $ mvn compile exec:java
 
-# Ou crie um arquivo jar executável com todas as dependências, também disponível nos packages do projeto
+# Ou crie um arquivo jar executável com todas as dependências
 $ mvn clean compile assembly:single
 
 $ java -jar target/crawler-1.0.0-jar-with-dependencies.jar
+
+# Ou baixe o jar com executável disponível nos packages do projeto, no https://github.com/Ellian-aragao/webcrawler-imdb/releases/tag/1.0.0v
+$ curl -LO https://github.com/Ellian-aragao/webcrawler-imdb/releases/download/1.0.0v/crawler-1.0.0-jar-with-dependencies.jar
+
+$ java -jar crawler-1.0.0-jar-with-dependencies.jar
 ```
 ---
 
