@@ -6,12 +6,16 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 
 public class ImdbDocumentConsumer {
-    private static final String IMDB_BASE_URL = "https://www.imdb.com";
+    private final String imdbBaseUrl;
 
-    public static Document getDocumentFromImdbWithPath(String path) {
+    public ImdbDocumentConsumer(String imdbBaseUrl) {
+        this.imdbBaseUrl = imdbBaseUrl;
+    }
+
+    public Document getDocumentFromImdbWithPath(String path) {
         try {
             return Jsoup
-                    .connect(IMDB_BASE_URL.concat(path))
+                    .connect(imdbBaseUrl.concat(path))
                     .header("Accept-Language", "en-US,en")
                     .get();
         } catch (IOException e) {

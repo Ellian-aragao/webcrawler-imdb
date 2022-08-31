@@ -7,14 +7,15 @@ import org.jsoup.select.Elements;
 import java.util.List;
 
 public class ParserReviewMovieBodyPage {
-    public static List<Review> consumeMovieReviewsPage(Element body) {
+
+    public List<Review> consumeMovieReviewsPage(Element body) {
         return body.getElementsByClass("lister-item-content")
                    .stream()
-                   .map(ParserReviewMovieBodyPage::consumeMovieReviewItem)
+                   .map(this::consumeMovieReviewItem)
                    .toList();
     }
 
-    private static Review consumeMovieReviewItem(Element element) {
+    private Review consumeMovieReviewItem(Element element) {
         final var listRootElementeReview = element.getElementsByClass("lister-item-content");
 
         final var score = getScoreReview(listRootElementeReview);
@@ -28,7 +29,7 @@ public class ParserReviewMovieBodyPage {
                      .build();
     }
 
-    private static String getScoreReview(Elements elements) {
+    private String getScoreReview(Elements elements) {
         return elements
                 .first()
                 .getElementsByClass("rating-other-user-rating")
@@ -39,7 +40,7 @@ public class ParserReviewMovieBodyPage {
                 .text();
     }
 
-    private static String getTitleReview(Elements element) {
+    private String getTitleReview(Elements element) {
         return element
                 .first()
                 .getElementsByClass("title")
@@ -47,7 +48,7 @@ public class ParserReviewMovieBodyPage {
                 .text();
     }
 
-    private static String getContentReview(Elements elements) {
+    private String getContentReview(Elements elements) {
         return elements
                 .first()
                 .getElementsByClass("content")

@@ -8,8 +8,14 @@ import java.util.List;
 
 public class ImdbWorstMoviePort implements ImdbWorstMoviesPort {
 
+    private final CrawlerProcessor crawlerProcessor;
+
+    public ImdbWorstMoviePort(CrawlerProcessor crawlerProcessor) {
+        this.crawlerProcessor = crawlerProcessor;
+    }
+
     @Override
     public List<MovieReviews> getWorstMoviesData() {
-        return CrawlerProcessor.processWorstMovies();
+        return crawlerProcessor.processWorstMovies();
     }
 }

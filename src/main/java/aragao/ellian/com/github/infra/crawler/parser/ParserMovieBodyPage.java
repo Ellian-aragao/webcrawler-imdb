@@ -7,7 +7,8 @@ import org.jsoup.select.Elements;
 import java.util.List;
 
 public class ParserMovieBodyPage {
-    public static Movie parseMovieBodyPage(Element bodyMoviePage) {
+
+    public Movie parseMovieBodyPage(Element bodyMoviePage) {
         final var name = getMovieName(bodyMoviePage);
         final var score = getMovieScore(bodyMoviePage);
         final var directors = getMovieDirectors(bodyMoviePage);
@@ -23,14 +24,14 @@ public class ParserMovieBodyPage {
                     .build();
     }
 
-    private static String getMovieName(Element bodyMoviePage) {
+    private String getMovieName(Element bodyMoviePage) {
         return bodyMoviePage
                 .getElementsByAttributeValue("data-testid", "hero-title-block__title")
                 .first()
                 .text();
     }
 
-    private static String getMovieScore(Element bodyMoviePage) {
+    private String getMovieScore(Element bodyMoviePage) {
         return bodyMoviePage
                 .getElementsByAttributeValue("data-testid", "hero-rating-bar__aggregate-rating")
                 .first()
@@ -41,7 +42,7 @@ public class ParserMovieBodyPage {
                 .text();
     }
 
-    private static List<String> getMovieDirectors(Element bodyMoviePage) {
+    private List<String> getMovieDirectors(Element bodyMoviePage) {
         return bodyMoviePage
                 .getElementsByAttributeValue("data-testid", "title-pc-principal-credit")
                 .first()
@@ -53,7 +54,7 @@ public class ParserMovieBodyPage {
                 .toList();
     }
 
-    private static List<String> getMovieStars(Element bodyMoviePage) {
+    private List<String> getMovieStars(Element bodyMoviePage) {
         return bodyMoviePage
                 .getElementsByAttributeValue("data-testid", "title-pc-principal-credit")
                 .last()
@@ -65,7 +66,7 @@ public class ParserMovieBodyPage {
                 .toList();
     }
 
-    private static List<String> getMovieTopCast(Element bodyMoviePage) {
+    private List<String> getMovieTopCast(Element bodyMoviePage) {
         return bodyMoviePage
                 .getElementsByAttributeValue("data-testid", "title-cast")
                 .first()

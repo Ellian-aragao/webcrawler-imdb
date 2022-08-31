@@ -10,4 +10,8 @@ public interface SortMoviesUsecase {
     default List<MovieReviews> sortAscendingMoviesByRating(List<MovieReviews> movieReviews) {
         return sortMoviesByRating(movieReviews, true);
     }
+
+    default List<MovieReviews> sortDescendingMoviesByRating(List<MovieReviews> movieReviews) {
+        return sortMoviesByRating(movieReviews, false);
+    }
 }
