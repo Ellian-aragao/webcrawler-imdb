@@ -30,7 +30,7 @@ public record Review(String score, String title, String content) {
         }
 
         public Review build() {
-            return new Review(score, title, content);
+            return Review.of(score, title, content);
         }
     }
 }

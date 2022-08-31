@@ -26,7 +26,7 @@ public record MovieReviews(Movie movie, List<Review> reviews) {
         }
 
         public MovieReviews build() {
-            return new MovieReviews(movie, reviews);
+            return MovieReviews.of(movie, reviews);
         }
     }
 }

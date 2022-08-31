@@ -56,7 +56,7 @@ public record Movie(
         }
 
         public Movie build() {
-            return new Movie(name, score, directors, starts, topCast);
+            return Movie.of(name, score, directors, starts, topCast);
         }
     }
 }
